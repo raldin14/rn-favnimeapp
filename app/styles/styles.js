@@ -7,7 +7,7 @@ const imageBackGroundStyle = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignContent: 'center',
-        backgroundColor: Colors.WHITE,
+        backgroundColor: Colors.white,
         resizeMode: 'contain'
     }
 });
