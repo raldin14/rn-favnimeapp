@@ -73,7 +73,7 @@ const workinfoData = [
 		]
 	},
 		{
-		id: "3",
+		id: "4",
 		company: "Yinks Marketing",
 		position: "Wordpress Web Designer",
 		description: "Web designer working with wordpress",
@@ -99,7 +99,7 @@ const workinfoData = [
 		]
 	},
 		{
-		id: "4",
+		id: "5",
 		company: "Quicken Loans",
 		position: "Intern Back-End Web Developer",
 		description: "Back-End developer for the site MyQL.com",

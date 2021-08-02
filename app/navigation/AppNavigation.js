@@ -2,7 +2,8 @@ import React from 'react';
 import {NavigationContainer}  from '@react-navigation/native';
 import {createStackNavigator}  from '@react-navigation/stack';
 import SplashScreen from '@screens/SplashScreen';
-import MainScreen from '@screens/MainScreen';
+import AnimeDetail from '@screens/AnimeDetail';
+import TabBottomNavigation from './TabBottomNavigation';
 
 const Stack = createStackNavigator();
 
@@ -19,7 +20,14 @@ const AppNavigation = () =>{
                 />
                 <Stack.Screen
                     name = "MainScreen"
-                    component ={MainScreen}
+                    component ={TabBottomNavigation}
+                    options = {{
+                        headerShown : false
+                    }}
+                />
+                <Stack.Screen
+                    name = "AnimeDetail"
+                    component ={AnimeDetail}
                     options = {{
                         headerShown : false
                     }}

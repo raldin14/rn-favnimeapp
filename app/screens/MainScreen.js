@@ -74,7 +74,7 @@ const MainScreen = () => {
                         <FlatList
                             data={personalData[0].skills}
                             renderItem={renderSkillsItem}
-                            keyExtractor={item => item.id}
+                            keyExtractor={item => personalData[0].id}
                             showsHorizontalScrollIndicator={false}
                             horizontal={true}
                         />
@@ -85,7 +85,9 @@ const MainScreen = () => {
                     <Text style={styles.workintitle}>Work Information</Text>
                     {
                         workinfoData.map((item) => (                        
-                            <View style={[styles.workinfoitemcontainer, {
+                            <View
+                                key={item.id}
+                                style={[styles.workinfoitemcontainer, {
                                 marginTop: item.id == 1 ? 10 : 20,
                             }]}>
                                 <View>
@@ -119,7 +121,7 @@ const styles = StyleSheet.create({
     },
     headerStyle: {
         backgroundColor: "#00a46c",
-        height: "28%",
+        height: "30%",
         borderBottomLeftRadius:20,
         borderBottomRightRadius: 20,
         paddingHorizontal: 20
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         marginTop:25,
-        width:"100%"
+        width:"100%",
     },
     nameText: {
         fontSize: 28,
