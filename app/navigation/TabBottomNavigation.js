@@ -37,7 +37,7 @@ const TabBottomNavigation = () => {
                 options={{
                     tabBarLabel:"Anime",
                     tabBarIcon:({color, size}) => {
-                        <MaterialCommunityIcons name="home" color={color} size={size} />
+                        <Feather name="tv" color={color} size={size} />
                     }
                 }}
             />
@@ -47,7 +47,7 @@ const TabBottomNavigation = () => {
                 options={{
                     tabBarLabel:"Faorite",
                     tabBarIcon:({color, size}) => {
-                        <MaterialCommunityIcons name="home" color={color} size={size} />
+                        <Feather name="heart" color={color} size={size} />
                     }
                 }}
             />
