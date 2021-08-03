@@ -8,22 +8,35 @@ const AnimeScreen = ({navigation}) => {
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [dataLink, setDataLink] = useState('https://kitsu.io/api/edge/anime');
+    const [dataSearch, setDataSearch] = useState('https://kitsu.io/api/edge/anime?filter[text]=');
 
     const getAnime = async () => {
         try {
-            const response = await fetch(animePath);
+            const response = await fetch(dataLink);
             const json = await response.json();
-            setData(json.data);
+            const animeData = [...data, ...json.data]
+            setData(animeData);
+            setDataLink(json.links.next);
         } catch (error) {
             console.error(error);
         } finally {
             setLoading(false);
-        }
-        
+        }        
     }
 
+    const searchAnime = (text) => {
+        if(text === ''){
+            setDataLink(`https://kitsu.io/api/edge/anime?filter[text]=${text}`);
+        }else{
+            setDataLink(animePath);
+        }
+        
+        getAnime();
+    }
     useEffect(() =>{        
         getAnime();
+       console.log(dataLink);
     },[]);
 
     const renderAnimeItem = ({item}) => {
@@ -65,16 +78,24 @@ const AnimeScreen = ({navigation}) => {
             <View style={styles.searchContainer}>
                 <Feather name="search" size={16} color={'#000'}/>
                 <View style={styles.search}>
-                    <TextInput style={styles.searchInput} placeholder="search"/>
+                    <TextInput 
+                        style={styles.searchInput} 
+                        placeholder="search"
+                        onChangeText ={(text) => searchAnime(text)}    
+                    />
                 </View>
             </View>
             {/**Fetching the animes */}
             {
-                isLoading ? <ActivityIndicator/> : 
+                isLoading ? <ActivityIndicator
+                    animating size={30}
+                /> : 
                 <FlatList
                     data={data}
                     keyExtractor = {({id}, index) => id}
                     renderItem = {renderAnimeItem}
+                    onEndReached={getAnime}
+                    onEndReachedThreshold={0}                    
                     showsVerticalScrollIndicator = {false}
                 />
             }

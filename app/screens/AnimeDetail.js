@@ -17,6 +17,16 @@ const AnimeDetail = ({navigation, route}) => {
         alert("Added to favorites");
     }
 
+    const redirectTo = async () => {
+        await Linking.canOpenURL('https://www.youtube.com/watch?v=9aS-EgdAq6U').then(supported => {
+            if(supported){
+                Linking.openURL('youtube://video/9aS-EgdAq6U');
+            }else {
+                alert("Don't know how to open URI: ");
+              }
+        })
+    }
+
     return(
         <View style={styles.container}>
             {/*Head section*/}
@@ -32,10 +42,13 @@ const AnimeDetail = ({navigation, route}) => {
                         <Text style={styles.subTitle}>{item.type}</Text>
                     </View>
                     <View style={styles.imageContainer}>
-                        <Image
+                        {item.attributes.posterImage.small != null ? <Image
                             source={{uri:item.attributes.posterImage.small}}
                             style={styles.profilePict}
-                        />
+                        /> :<Image
+                        source={require('@resource/images/logo.png')}
+                        style={styles.profilePict}
+                    />}
                     </View>
                 </View>
                 <View  style={styles.infoContainer}>
@@ -57,17 +70,32 @@ const AnimeDetail = ({navigation, route}) => {
             
                 <View style={styles.detailInformationSection}>
                     <View  style={styles.detailInformationImage}>
-                        <Image source={{uri:item.attributes.posterImage.original}} style={styles.animePosterIamge}/>
+                        { item.attributes.posterImage.original != null ?
+                            <Image source={{uri:item.attributes.posterImage.original}} style={styles.animePosterIamge}/>
+                            : <Image
+                            source={require('@resource/images/logo.png')}
+                            style={styles.animePosterIamge}
+                        />
+                        }
                     </View>
                     <View  style={styles.detailInformationTexts}>
                         <Text>Popularity Rank: {item.attributes.popularityRank}</Text>
                         <Text>Rating Rank: {item.attributes.ratingRank}</Text>
                         <Text>Total Episodes: {item.attributes.episodeCount}</Text>
                         <Text>Episode Length: {item.attributes.episodeLength}</Text>
+                        <TouchableOpacity onPress={redirectTo}>
+                            <Text>Youtube</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View>
-                    <Image source={{uri:item.attributes.coverImage.original}} style={styles.animeCoverIamge}/>
+                    {item.attributes.coverImage.original != null ?
+                        <Image source={{uri:item.attributes.coverImage.original}} style={styles.animeCoverIamge}/>
+                        : <Image
+                        source={require('@resource/images/logo.png')}
+                        style={styles.animeCoverIamge}
+                    />
+                    }
                 </View>
             </View>
         </View>
