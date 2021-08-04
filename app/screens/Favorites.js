@@ -17,39 +17,16 @@ const Favorites = () => {
             console.error(error);
         } finally {
             setLoading(false);
-        }
-        
+        }        
     }
-
     useEffect(() =>{        
         getAnime();
-        console.log(data);
     },[]);
 
-    const renderAnimeItem = ({item}) => {
-        return(
-            <TouchableOpacity
-                key={item.id}
-                onPress={() => navigation.navigate('AnimeDetail', {
-                    item: item
-                })}
-            >
-                <View style={[styles.animeitemcontainer]}>
-                    <View>
-                        <View  style={styles.animeitemsection}>
-                            <View style={styles.animeIamgeSection} >
-                                <Image source={{uri:item.attributes.posterImage.small}} style={styles.animeIamge} />
-                            </View>
-                            <View style={styles.animeInformationsection} >
-                                <Text  style={styles.animeTitle} >{item.attributes.titles.en_jp}</Text>
-                                <Text  style={styles.animeTitle} >{item.type}</Text>
-                                <Text  style={styles.animeTitle} >Total Episodes: {item.attributes.episodeCount}</Text>
-                            </View>
-                        </View>
-                    </View>           
-                </View>
-            </TouchableOpacity>
-        )
+    const renderAnimeItem = (item) => {
+        <View>
+            <Text>{item.id}</Text>
+        </View>
     }
 
     return(
@@ -58,8 +35,7 @@ const Favorites = () => {
             <View style={styles.headerStyle}>
                 <Image  style={styles.menuIcon}
                     source={require('@resource/images/1.png')}
-                />
-          
+                />          
             </View>
             {/**Search */}
             <View style={styles.searchContainer}>
@@ -70,13 +46,9 @@ const Favorites = () => {
             </View>
             {/**Fetching the animes */}
             {
-                isLoading ? <ActivityIndicator/> : 
-                <FlatList
-                    data={data}
-                    keyExtractor = {({id}, index) => id}
-                    renderItem = {renderAnimeItem}
-                    showsVerticalScrollIndicator = {false}
-                />
+                data.map((item) => (
+                    <Text  style={styles.animeTitle} >{item.attributes.titles.en_jp}</Text>
+                ))
             }
         </View>
     )

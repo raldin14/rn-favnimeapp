@@ -8,8 +8,10 @@ import workinfoData from '@assets/data/workinfoData';
 import Colors from '@styles/color';
 
 const AnimeDetail = ({navigation, route}) => {
-
+    
+    const [youtubeID, setYoutubeID] = useState([]);
     const {item} = route.params;
+    const youtubeLink = 'https://www.youtube.com/watch?v=';
     console.log(item)
 
     const saveFavorite = async () => {
@@ -17,14 +19,11 @@ const AnimeDetail = ({navigation, route}) => {
         alert("Added to favorites");
     }
 
-    const redirectTo = async () => {
-        await Linking.canOpenURL('https://www.youtube.com/watch?v=9aS-EgdAq6U').then(supported => {
-            if(supported){
-                Linking.openURL('youtube://video/9aS-EgdAq6U');
-            }else {
-                alert("Don't know how to open URI: ");
-              }
-        })
+    const redirectTo = () => {
+        setYoutubeID(item.attributes.youtubeVideoId);
+        Linking.openURL(youtubeLink+youtubeID).catch(err =>
+            console.error('An error occurred', err)
+          );
     }
 
     return(
@@ -56,7 +55,7 @@ const AnimeDetail = ({navigation, route}) => {
                         <Text style={styles.subTitle}>Age Rating: {item.attributes.ageRating}</Text>
                     </View>
                     <View  style={{width: "60%"}}>
-                        <TouchableOpacity onPress={saveFavorite}>
+                        <TouchableOpacity onPress={() => saveFavorite}>
                             <View style={styles.buttonAdd} >
                                 <Text style={styles.buttonText}>Add Favorite</Text>
                             </View>
@@ -83,7 +82,7 @@ const AnimeDetail = ({navigation, route}) => {
                         <Text>Rating Rank: {item.attributes.ratingRank}</Text>
                         <Text>Total Episodes: {item.attributes.episodeCount}</Text>
                         <Text>Episode Length: {item.attributes.episodeLength}</Text>
-                        <TouchableOpacity onPress={redirectTo}>
+                        <TouchableOpacity onPress={redirectTo(item.attributes.youtubeVideoId)}>
                             <Text>Youtube</Text>
                         </TouchableOpacity>
                     </View>

@@ -4,7 +4,7 @@ import Feather from 'react-native-vector-icons/Feather';
 
 const AnimeScreen = ({navigation}) => {
 
-    const animePath = 'https://kitsu.io/api/edge/anime';
+    const animePath = "https://kitsu.io/api/edge/anime?page%5Blimit%5D=10&page%5Boffset%5D=0";
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -25,14 +25,29 @@ const AnimeScreen = ({navigation}) => {
         }        
     }
 
-    const searchAnime = (text) => {
-        if(text === ''){
-            setDataLink(`https://kitsu.io/api/edge/anime?filter[text]=${text}`);
+    const searchAnime = async (text) => {        
+        if(text !== ''){
+            try {
+                const response = await fetch(dataSearch+text);
+                const json = await response.json();
+                const animeData = [...json.data]
+                setData(json.data);
+                //setDataLink(json.links.next);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+            console.log('search');
+            console.log(data);
         }else{
             setDataLink(animePath);
+            setData([]);
+            console.log('buscar');
+            console.log(data);
+            console.log(dataLink);
+            getAnime();
         }
-        
-        getAnime();
     }
     useEffect(() =>{        
         getAnime();
