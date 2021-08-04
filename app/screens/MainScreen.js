@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import { Text, StyleSheet, View, Image, FlatList, ScrollView } from 'react-native';
+import { Text, StyleSheet, View, Image, FlatList, ScrollView, SafeAreaView } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather';
 
 import personalData from '@assets/data/personalData';
 import workinfoData from '@assets/data/workinfoData';
 import Colors from '@styles/color';
+import GlobalStyles from '@styles/styles';
+import SkillsView from '@component/SkillsView';
 
 Feather.loadFont();
 
@@ -27,60 +29,33 @@ const MainScreen = () => {
         }        
         setAge(year);
     }
-
-    const renderSkillsItem = ({item}) => {
-        return(
-            <View style={[styles.skillsitemcontainer,{
-                marginLeft: item.id == 1 ? 20 : 0
-            }]}>
-                <Text style={styles.skillsitemtitle}>{item.skillname}</Text>
-                <Image style={styles.skillsitemimage} source={item.image}/>
-            </View>
-        )
-    }
+    
     return(
-        <View style={styles.container}>
+        <SafeAreaView style={GlobalStyles.safeArea}>
             {/*Head section*/}
-            <View style={styles.headerStyle}>
-                <Image  style={styles.menuIcon}
-                    source={require('@resource/images/1.png')}
-                />
-                <View  style={styles.infoContainer}>
-                    <View style={{width: "70%"}}>
-                        <Text style={styles.nameText}>{personalData[0].name}</Text>                        
-                        <Text style={styles.subTitle}>{workinfoData[0].position}</Text>
+            <View style={GlobalStyles.profileHeader}>
+                <View>
+                    <View style={GlobalStyles.profileTitleWrapper}>
+                        <Text style={GlobalStyles.profileTitle}>{personalData[0].name}</Text>
                     </View>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            source={personalData[0].picture}
-                            style={styles.profilePict}
-                        />
-                    </View>
+                    <Text style={GlobalStyles.profileSubTitle}>{workinfoData[0].position}</Text>
                 </View>
-                <View  style={styles.infoContainer}>
-                    <View style={{width: "40%"}}>                       
-                        <Text style={styles.subTitle}>Age: {age}</Text>
-                    </View>
-                    <View  style={{width: "60%"}}>
-                        <Text style={styles.subTitle}>From: {personalData[0].country}</Text>
-                    </View>
+                <Image
+                            source={personalData[0].picture}
+                            style={GlobalStyles.profilePict}
+                        />
+            </View>
+            <View  style={GlobalStyles.infoContainer}>
+                <View style={{width: "20%"}}>                       
+                    <Text style={GlobalStyles.profileSubTitle}>Age: {age}</Text>
+                </View>
+                <View  style={{width: "80%"}}>
+                    <Text style={GlobalStyles.profileSubTitle}>From: {personalData[0].country}</Text>
                 </View>
             </View>
-            {/**Skills */}
             <ScrollView contentInsetAdjustmentBehavior = "automatic" showsVerticalScrollIndicator= {false}>
-                <View style={styles.skillscontainer}>
-                    <Text style={styles.skillstitle}>Skills</Text>
-                    <View style={styles.skillsListcontainer}>
-                        <FlatList
-                            data={personalData[0].skills}
-                            renderItem={renderSkillsItem}
-                            keyExtractor={item => personalData[0].id}
-                            showsHorizontalScrollIndicator={false}
-                            horizontal={true}
-                        />
-                    </View>
-                </View>
-                {/**Work information */}
+                {/**Skills */}
+                <SkillsView data={personalData[0].skills}/>
                 <View style={styles.workinfocontainer}>
                     <Text style={styles.workintitle}>Work Information</Text>
                     {
@@ -110,7 +85,7 @@ const MainScreen = () => {
                     }
                 </View>
             </ScrollView>
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -204,12 +179,12 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     workinfoitemcontainer: {
-        backgroundColor: "#0096AF",
+        backgroundColor: Colors.primary,
         borderRadius: 25,
         paddingTop: 20,
         paddingLeft: 20,
         flexDirection: 'row',
-        shadowColor: "#000",
+        shadowColor: Colors.dark,
         shadowOffset: {
             width: 0,
             height: 2,

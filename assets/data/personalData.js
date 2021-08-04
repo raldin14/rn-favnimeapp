@@ -5,13 +5,13 @@ const personalData = [
         birthdate: "11/20/1987",
         picture: require('@resource/images/raldin.jpg'),
         country: "Dominican Republic",
-        education: [{
+        education: {
             id: "1",
             Collage: "Western Michigan University",
             Mayor: "Computer Science",
             year:"2014"
             }
-        ],
+        ,
         skills: [
             {
                 id: "1",

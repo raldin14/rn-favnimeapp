@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, StatusBar, Text } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import {imageBackGroundStyle} from '@styles/styles';
+import GlobalStyles from '@styles/styles';
 
 const SplashScreen = ({navigation}) => {
 
@@ -17,7 +17,7 @@ const SplashScreen = ({navigation}) => {
 
     return(
         <>
-            <View style={imageBackGroundStyle.image}>
+            <View style={GlobalStyles.image}>
                 <StatusBar translucent backgroundColor='rgba(0,0,0,0.2)' />
                 <Animatable.Image
                     animation="pulse"

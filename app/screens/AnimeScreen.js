@@ -1,6 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { Text, StyleSheet, View, Image, FlatList, TextInput, SafeAreaView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+import Colors from '@styles/color';
+import GlobalStyles from '@styles/styles';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import SearchBox from '@component/SearchBox';
 
 const AnimeScreen = ({navigation}) => {
 
@@ -62,7 +66,7 @@ const AnimeScreen = ({navigation}) => {
                     item: item
                 })}
             >
-                <View style={[styles.animeitemcontainer]}>
+                <View style={GlobalStyles.cards}>
                     <View>
                         <View  style={styles.animeitemsection}>
                             <View style={styles.animeIamgeSection} >
@@ -81,25 +85,20 @@ const AnimeScreen = ({navigation}) => {
     }
 
     return(
-        <View style={styles.container}>
+        <SafeAreaView style={GlobalStyles.safeArea}>
             {/*Head section*/}
-            <View style={styles.headerStyle}>
-                <Image  style={styles.menuIcon}
-                    source={require('@resource/images/1.png')}
-                />
-          
+            <View style={GlobalStyles.detailHeader}>
+                <Icon name="arrow-back" size={28} onPress={() => navigation.goBack()}/>
+                <Text style={{fontSize: 20, fontWeight:'bold'}}>Anime</Text>
             </View>
             {/**Search */}
-            <View style={styles.searchContainer}>
-                <Feather name="search" size={16} color={'#000'}/>
-                <View style={styles.search}>
-                    <TextInput 
-                        style={styles.searchInput} 
-                        placeholder="search"
-                        onChangeText ={(text) => searchAnime(text)}    
-                    />
+            <View style={GlobalStyles.searchBox}>
+                <View style={GlobalStyles.inputContainer}>
+                    <Icon name='search' size={28}/>
+                    <TextInput style={GlobalStyles.searchInput} placeholder="Search" onChangeText ={(text) => searchAnime(text)} /> 
                 </View>
             </View>
+            
             {/**Fetching the animes */}
             {
                 isLoading ? <ActivityIndicator
@@ -110,11 +109,12 @@ const AnimeScreen = ({navigation}) => {
                     keyExtractor = {({id}, index) => id}
                     renderItem = {renderAnimeItem}
                     onEndReached={getAnime}
-                    onEndReachedThreshold={0}                    
+                    onEndReachedThreshold={0}   
+                    contentContainerStyle={{paddingBottom: 80}}                 
                     showsVerticalScrollIndicator = {false}
                 />
             }
-        </View>
+        </SafeAreaView>
     )
 }
 

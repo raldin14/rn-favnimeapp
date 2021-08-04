@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react';
 import { Text, StyleSheet, View, Image, FlatList, TextInput, SafeAreaView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Colors from '@styles/color';
+import GlobalStyles from '@styles/styles';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Favorites = () => {
     const [isLoading, setLoading] = useState(true);
@@ -9,9 +12,8 @@ const Favorites = () => {
 
     const getAnime = async () => {
         try {
-            const response = await AsyncStorage.getItem('@favorite_anime');
+            const response =  AsyncStorage.getItem('@favorite_anime');
             const json = await JSON.parse(response);
-            console.log(json)
             setData(json);
         } catch (error) {
             console.error(error);
@@ -23,34 +25,63 @@ const Favorites = () => {
         getAnime();
     },[]);
 
-    const renderAnimeItem = (item) => {
-        <View>
-            <Text>{item.id}</Text>
-        </View>
+    const renderAnimeItem = ({item}) => {
+        return(
+            <TouchableOpacity
+                key={item.id}
+                onPress={() => navigation.navigate('AnimeDetail', {
+                    item: item
+                })}
+            >
+                <View style={GlobalStyles.cards}>
+                    <View>
+                        <View  style={styles.animeitemsection}>
+                            <View style={styles.animeIamgeSection} >
+                                <Image source={{uri:item.attributes.posterImage.small}} style={styles.animeIamge} />
+                            </View>
+                            <View style={styles.animeInformationsection} >
+                                <Text  style={styles.animeTitle} >{item.attributes.titles.en_jp}</Text>
+                                <Text  style={styles.animeTitle} >{item.type}</Text>
+                                <Text  style={styles.animeTitle} >Total Episodes: {item.attributes.episodeCount}</Text>
+                            </View>
+                        </View>
+                    </View>           
+                </View>
+            </TouchableOpacity>
+        )
     }
 
     return(
-        <View style={styles.container}>
+        <SafeAreaView style={GlobalStyles.safeArea}>
             {/*Head section*/}
-            <View style={styles.headerStyle}>
-                <Image  style={styles.menuIcon}
-                    source={require('@resource/images/1.png')}
-                />          
+            <View style={GlobalStyles.detailHeader}>
+                <Icon name="arrow-back" size={28} onPress={() => navigation.goBack()}/>
+                <Text style={{fontSize: 20, fontWeight:'bold'}}>Anime</Text>
             </View>
             {/**Search */}
-            <View style={styles.searchContainer}>
-                <Feather name="search" size={16} color={'#000'}/>
-                <View style={styles.search}>
-                    <TextInput style={styles.searchInput} placeholder="search"/>
+            <View style={GlobalStyles.searchBox}>
+                <View style={GlobalStyles.inputContainer}>
+                    <Icon name='search' size={28}/>
+                    <TextInput style={GlobalStyles.searchInput} placeholder="Search" onChangeText ={(text) => searchAnime(text)} /> 
                 </View>
             </View>
+            
             {/**Fetching the animes */}
             {
-                data.map((item) => (
-                    <Text  style={styles.animeTitle} >{item.attributes.titles.en_jp}</Text>
-                ))
+                isLoading ? <ActivityIndicator
+                    animating size={30}
+                /> : 
+                <FlatList
+                    data={data}
+                    keyExtractor = {({id}, index) => id}
+                    renderItem = {renderAnimeItem}
+                    onEndReached={getAnime}
+                    onEndReachedThreshold={0}   
+                    contentContainerStyle={{paddingBottom: 80}}                 
+                    showsVerticalScrollIndicator = {false}
+                />
             }
-        </View>
+        </SafeAreaView>
     )
 }
 
