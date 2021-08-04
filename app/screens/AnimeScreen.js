@@ -42,14 +42,9 @@ const AnimeScreen = ({navigation}) => {
             } finally {
                 setLoading(false);
             }
-            console.log('search');
-            console.log(data);
         }else{
             setDataLink(animePath);
             setData([]);
-            console.log('buscar');
-            console.log(data);
-            console.log(dataLink);
             getAnime();
         }
     }

@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import { Text, StyleSheet, View, Image, FlatList, TextInput, SafeAreaView, ActivityIndicator, TouchableOpacity } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors from '@styles/color';
 import GlobalStyles from '@styles/styles';
