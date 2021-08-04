@@ -48,9 +48,9 @@ const AnimeDetail = ({navigation, route}) => {
                     <View style={GlobalStyles.detailContent}>
                         <Text style={GlobalStyles.detailTitle}>{item.attributes.titles.en_jp}</Text>
                         <View style={GlobalStyles.favBtnIcon}>
-                            {/*<TouchableOpacity onPress={() => saveFavorite}>
+                            <TouchableOpacity onPress={() => saveFavorite}>
                                 <Icon name='favorite-border' color={isFavorite == true ? Colors.primary : Colors.grey} size={25}/>
-                            </TouchableOpacity>*/}
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={GlobalStyles.detailContent}>
